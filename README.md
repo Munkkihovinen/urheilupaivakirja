@@ -9,3 +9,13 @@
 - Käyttäjä pystyy lisäämään kommentteja omiin ja muiden suorituksiin. Suoritussivulla näytetään kaikki kommentit.
 
 - Pääasiallinen tietokohde on urheilusuoritus ja toissijainen tietokohde on kommentti.
+
+# Projektin käynnistäminen ja testaaminen
+
+- Asenna sqlite3 ja python
+- Asenna Flask: `pip install flask`
+- Luo tietokanta `sqlite3 database.db < schema.sql`
+- Käynnistä sovellus `flask run`
+
+- Testaa tietokantaa suoraan `sqlite3 database.db`
+- `select * from users;`
