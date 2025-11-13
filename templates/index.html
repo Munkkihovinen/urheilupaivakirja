@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Urheilupäiväkirja</h1>
+    {% if session.username %}
+    <p>Tervetuloa {{ session.username }}</p>
+    <p>
+      <a href="/logout">Kirjaudu ulos</a>
+    </p>
+    {% else %}
+    <p>Luo tunnus, jos olet uusi käyttäjä.</p>
+    <a href="/register">Luo tunnus</a>
+    <p>Kirjaudu sisään, jos sinulla on jo tunnus.</p>
+    <a href="/login">Kirjaudu sisään</a>
+    {% endif %}
+  </body>
+</html>
