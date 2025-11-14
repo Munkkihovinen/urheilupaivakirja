@@ -80,3 +80,8 @@ def new_activity():
 @app.route("/activity/<int:activity_id>")
 def show_activity(activity_id):
     return render_template("activity.html")
+
+@app.route("/remove/<int:activity_id>")
+def remove_activity(activity_id):
+    db.execute("DELETE FROM activities WHERE id = ?", [activity_id])
+    return redirect("/")
