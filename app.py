@@ -1,8 +1,8 @@
-import sqlite3
 from flask import Flask
 from flask import render_template, request, session, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
+import crud
 import config
 
 app = Flask(__name__)
@@ -10,7 +10,9 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    activities = crud.get_activities()
+    return render_template("index.html", activities=activities)
+
 
 @app.route("/register")
 def register():

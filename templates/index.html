@@ -7,7 +7,15 @@
     <p>
       <a href="/logout">Kirjaudu ulos</a>
     </p>
-    {% else %}
+    {% for activity in activities %}
+    <p>
+      <a href="/activity/{{ activity.id }}">{{ activity.sport }} </a>
+      <br />
+      User: {{ activity.username }}, Duration: {{ activity.duration_in_minutes
+      }} minutes, date: {{ activity.sent_at }}
+    </p>
+    <hr />
+    {% endfor %} {% else %}
     <p>Luo tunnus, jos olet uusi käyttäjä.</p>
     <a href="/register">Luo tunnus</a>
     <p>Kirjaudu sisään, jos sinulla on jo tunnus.</p>
