@@ -13,7 +13,6 @@ def index():
     activities = crud.get_activities()
     return render_template("index.html", activities=activities)
 
-
 @app.route("/register")
 def register():
     return render_template("register.html")
@@ -52,15 +51,17 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         
-        sql = "SELECT password_hash FROM users WHERE username = ?"
+        sql = "SELECT id, password_hash FROM users WHERE username = ?"
         db_row = db.query(sql, [username])
 
         if not db_row:
             error = True
         else:
-            password_hash = db_row[0][0]
+            user_id = db_row[0][0]
+            password_hash = db_row[0][1]
             if check_password_hash(password_hash, password):
                 session["username"] = username
+                session["user_id"] = user_id
                 return redirect("/")
             else:
                 error = True
@@ -70,3 +71,12 @@ def login():
 def logout():
     del session["username"]
     return redirect("/")
+
+@app.route("/new_activity", methods=["POST"])
+def new_activity():
+    activity_id = crud.add_activity(request.form["sport"], request.form["duration_in_minutes"], request.form["content"], session["user_id"])
+    return redirect("/activity/" + str(activity_id))
+
+@app.route("/activity/<int:activity_id>")
+def show_activity(activity_id):
+    return render_template("activity.html")
