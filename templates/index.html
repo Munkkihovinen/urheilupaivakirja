@@ -7,35 +7,13 @@
     <p>
       <a href="/logout">Kirjaudu ulos</a>
     </p>
-    {% for activity in activities %}
-    <p>
-      <a href="/activity/{{ activity.id }}">{{ activity.sport }} </a>
-      <br />
-      User: {{ activity.username }}, Duration: {{ activity.duration_in_minutes
-      }} minutes, date: {{ activity.sent_at }}
-    </p>
-    {% if activity.user_id == session.user_id %}
-    <a href="/remove/{{ activity.id }}">Poista</a>
-    {% endif %}
-    <hr />
-    {% endfor %}
+    <h2>Haku</h2>
+    {% include "partials/search_form.html" %}
+    <h2>Urheilusuorituksia</h2>
+    {% for activity in activities %} {% include
+    "partials/activity_list_item.html" %} {% endfor %}
     <h2>Lisää urheilusuoritus</h2>
-    <form action="/new_activity" method="post">
-      <p>
-        Urheilulaji: <br />
-        <input type="text" name="sport" />
-      </p>
-      <p>
-        Suorituksen kesto minuuteissa: <br />
-        <input type="number" name="duration_in_minutes" />
-      </p>
-      <p>
-        Kuvaus: <br />
-        <textarea name="content" rows="3" cols="30"></textarea>
-      </p>
-      <input type="submit" value="Tallenna" />
-    </form>
-    {% else %}
+    {% include "partials/activity_form.html" %} {% else %}
     <p>Luo tunnus, jos olet uusi käyttäjä.</p>
     <a href="/register">Luo tunnus</a>
     <p>Kirjaudu sisään, jos sinulla on jo tunnus.</p>

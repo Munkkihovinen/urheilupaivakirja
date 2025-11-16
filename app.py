@@ -10,8 +10,9 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    activities = crud.get_activities()
-    return render_template("index.html", activities=activities)
+    query = request.args.get("query", "").strip()
+    activities = crud.get_activities(search=query if query else None)
+    return render_template("index.html", activities=activities, query=query)
 
 @app.route("/register")
 def register():

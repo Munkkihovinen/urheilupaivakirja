@@ -1,0 +1,12 @@
+<form action="/" method="get">
+  <input
+    type="text"
+    name="query"
+    placeholder="Hae lajilla tai kuvauksella..."
+    value="{{ query or '' }}"
+  />
+  <button type="submit">Hae</button>
+  {% if query %}
+  <a href="/">Tyhjennä</a>
+  {% endif %}
+</form>
