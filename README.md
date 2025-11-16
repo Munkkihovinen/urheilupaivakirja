@@ -16,9 +16,11 @@
 - Asenna Flask: `pip install flask`
 - Luo tietokanta `sqlite3 database.db < schema.sql`
 - Käynnistä sovellus `flask run`
-
-- Testaa tietokantaa suoraan `sqlite3 database.db`
+- Luo tunnus etusivulla ja kirjaudu sisään
 
 # Välipalautus 2 status
 
-- urheilusuorituksien kommentit toteuttamatta, vaikka taulu on mukana tietokannassa
+- Sovellusta kannattaa testata luomalla useampi tunnus ja lisätä useita suorituksia etusivun lomakkeen kautta.
+- Käyttäjien on tarkoitus nähdä kaikkien lisäämät suoritukset, mutta pystyä muokkaamaan ja poistamaan vain itse lisättyjä.
+- Suorituksien kommentit toteuttamatta, vaikka taulu on mukana tietokannassa
+  
