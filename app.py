@@ -80,7 +80,8 @@ def new_activity():
 
 @app.route("/activity/<int:activity_id>")
 def show_activity(activity_id):
-    return render_template("activity.html")
+    activity = crud.get_activity(activity_id)
+    return render_template("activity.html", activity=activity)
 
 @app.route("/remove/<int:activity_id>")
 def remove_activity(activity_id):

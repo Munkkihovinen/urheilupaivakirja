@@ -1,1 +1,21 @@
-<p>Activity page</p>
+<html>
+  <body>
+    <h1>{{ activity.username }} {{ activity.sport }}</h1>
+
+    <p>
+      Kesto: {{ activity.duration_in_minutes }} minuuttia, päivämäärä: {{
+      activity.sent_at }}
+      <br />
+      {{ activity.content }} {% if activity.user_id == session.user_id %}
+      <br />
+      <a href="/remove/{{ activity.id }}">Poista</a>
+      {% endif %}
+    </p>
+
+    <p>
+      <a href="/">← Takaisin etusivulle</a>
+    </p>
+    <h2>Kommentit</h2>
+    <p>Kommentit tulee tähän myöhemmin</p>
+  </body>
+</html>
