@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, session, redirect
+from flask import render_template, request, session, redirect, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import crud
@@ -47,6 +47,7 @@ def create():
 def login():
     if request.method == "GET":
         return render_template("login.html")
+
     if request.method == "POST":
         error = False
         username = request.form["username"]
@@ -87,3 +88,21 @@ def show_activity(activity_id):
 def remove_activity(activity_id):
     db.execute("DELETE FROM activities WHERE id = ?", [activity_id])
     return redirect("/")
+
+@app.route("/activity/<int:activity_id>/edit", methods=["GET", "POST"])
+def edit_activity(activity_id):
+    activity = crud.get_activity(activity_id)
+
+    # check user has right to edit
+    if activity["user_id"] != session.get("user_id"):
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("edit_activity.html", activity=activity)
+
+    sport = request.form.get("sport", "").strip()
+    duration = request.form.get("duration_in_minutes", "").strip()
+    content = request.form.get("content", "").strip()
+
+    crud.update_activity(activity_id, sport=sport, duration_in_minutes=duration, content=content)
+    return redirect(f"/activity/{activity_id}")

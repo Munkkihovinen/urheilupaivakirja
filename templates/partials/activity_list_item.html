@@ -6,6 +6,7 @@
   <br />
   {{ activity.content }} {% if activity.user_id == session.user_id %}
   <br />
+  <a href="/activity/{{ activity.id }}/edit">Muokkaa</a> |
   <a href="/remove/{{ activity.id }}">Poista</a>
   {% endif %}
 </p>

@@ -1,0 +1,28 @@
+<html>
+  <body>
+    <h1>Muokkaa suoritusta</h1>
+
+    <form action="/activity/{{ activity.id }}/edit" method="post">
+      <p>
+        Urheilulaji: <br />
+        <input type="text" name="sport" value="{{ activity.sport }}" />
+      </p>
+      <p>
+        Suorituksen kesto minuuteissa: <br />
+        <input
+          type="number"
+          name="duration_in_minutes"
+          value="{{ activity.duration_in_minutes }}"
+        />
+      </p>
+      <p>
+        Kuvaus: <br />
+        <textarea name="content" rows="5" cols="40">
+{{ activity.content }}</textarea
+        >
+      </p>
+      <input type="submit" value="Tallenna" />
+      <a href="/activity/{{ activity.id }}">Peruuta</a>
+    </form>
+  </body>
+</html>

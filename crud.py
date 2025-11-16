@@ -31,3 +31,11 @@ def add_activity(sport: str, duration_in_minutes: int, content: str, user_id: in
     db.execute(sql, [sport, duration_in_minutes, content, user_id])
     return db.last_insert_id()
 
+def update_activity(activity_id: int, sport: str, duration_in_minutes: int, content: str):
+    sql = """
+        UPDATE activities
+        SET sport = ?, duration_in_minutes = ?, content = ?
+        WHERE id = ?
+    """
+    db.execute(sql, [sport, duration_in_minutes, content, activity_id])
+
