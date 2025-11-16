@@ -1,6 +1,6 @@
 # urheilupaivakirja
 
-- Sovelluksessa käyttäjät pystyvät jakamaan urheilusuorituksiaan. Suorituksessa on laji, päivämäärä, ajallinen kesto, lajista riippuen mahdollisesti matka, sekä vapaa tekstikenttä, jossa voi antaa kuvauksen suorituksesta. Suoritukselle valittava laji ei ole vapaa tekstikenttä vaan valitaan sovelluksen tarjoamalta listalta.
+- Sovelluksessa käyttäjät pystyvät jakamaan urheilusuorituksiaan. Suorituksessa on laji, päivämäärä, ajallinen kesto minuuteissa, lajista riippuen mahdollisesti matka, sekä vapaa tekstikenttä, jossa voi antaa kuvauksen suorituksesta. Suoritukselle valittava laji ei ole vapaa tekstikenttä vaan valitaan sovelluksen tarjoamalta listalta.
 - Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
 - Käyttäjä pystyy lisäämään urheilusuorituksia ja muokkaamaan ja poistamaan niitä.
 - Käyttäjä näkee sovelluksessa omat ja muiden lisäämät suoritukset.
@@ -18,4 +18,7 @@
 - Käynnistä sovellus `flask run`
 
 - Testaa tietokantaa suoraan `sqlite3 database.db`
-- `select * from users;`
+
+# Välipalautus 2 status
+
+- urheilusuorituksien kommentit toteuttamatta, vaikka taulu on mukana tietokannassa
