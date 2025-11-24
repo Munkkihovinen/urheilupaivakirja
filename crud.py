@@ -13,7 +13,6 @@ def get_activities(search: str | None = None):
 
     return db.query(sql, params)
 
-
 def get_activity(activity_id: int):
     sql = """
         SELECT a.id, a.sent_at, a.sport, a.duration_in_minutes, a.content, a.user_id, u.username
@@ -39,3 +38,18 @@ def update_activity(activity_id: int, sport: str, duration_in_minutes: int, cont
     """
     db.execute(sql, [sport, duration_in_minutes, content, activity_id])
 
+def remove_activity(activity_id: int):
+    db.execute("DELETE FROM activities WHERE id = ?", [activity_id])
+
+def is_username_taken(username: str):
+    sql = "SELECT id FROM users WHERE username = ?"
+    return db.query(sql, [username])
+
+def create_user(username: str, password_hash: str):
+    sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+    db.execute(sql, [username, password_hash])
+
+def get_user_by_username(username: str):
+    sql = "SELECT id, password_hash FROM users WHERE username = ?"
+    rows = db.query(sql, [username])
+    return rows[0] if rows else None
