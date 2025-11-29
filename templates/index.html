@@ -3,6 +3,7 @@
 <h1>Urheilupäiväkirja</h1>
 {% if session.username %}
 <p>Tervetuloa {{ session.username }}</p>
+<p><a href="/user/{{ session.user_id }}">Oma sivu</a></p>
 <p>
   <a href="/logout">Kirjaudu ulos</a>
 </p>

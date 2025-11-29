@@ -1,8 +1,9 @@
 <p>
   <a href="/activity/{{ activity.id }}">{{ activity.sport }}</a>
   <br />
-  Käyttäjä: {{ activity.username }}, kesto: {{ activity.duration_in_minutes }}
-  minuuttia, päivämäärä: {{ activity.sent_at }}
+  Käyttäjä: <a href="/user/{{ activity.user_id }}">{{ activity.username }}</a>,
+  kesto: {{ activity.duration_in_minutes }} minuuttia, päivämäärä: {{
+  activity.sent_at }}
   <br />
   {{ activity.content }} {% if activity.user_id == session.user_id %}
   <br />

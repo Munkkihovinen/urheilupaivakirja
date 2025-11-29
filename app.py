@@ -107,3 +107,17 @@ def edit_activity(activity_id):
 
     crud.update_activity(activity_id, sport=sport, duration_in_minutes=duration, content=content)
     return redirect(f"/activity/{activity_id}")
+
+@app.route("/user/<int:user_id>")
+def user_profile(user_id):
+    activities = crud.get_activities_by_user_id(user_id)
+    username = activities[0]["username"] if activities else None
+    count = len(activities)
+    total_duration = sum(a["duration_in_minutes"] for a in activities) if activities else 0
+    return render_template(
+        "user.html",
+        activities=activities,
+        username=username,
+        count=count,
+        total_duration=total_duration,
+    )

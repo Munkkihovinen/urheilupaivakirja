@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% block title %}Aktiviteetti{% endblock %}
 {% block content %}
-    <h1>{{ activity.username }} {{ activity.sport }}</h1>
+    <h1><a href="/user/{{ activity.user_id }}">{{ activity.username }}</a> {{ activity.sport }}</h1>
 
     <p>
       Kesto: {{ activity.duration_in_minutes }} minuuttia, päivämäärä: {{

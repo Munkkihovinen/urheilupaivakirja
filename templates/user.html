@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block title %}Käyttäjä: {{ username }}{% endblock
+%} {% block content %}
+<h1>Käyttäjän {{ username }} urheilusuoritukset</h1>
+
+<p>
+  Suorituksia yhteensä: {{ count }}<br />
+  Yhteiskesto: {{ total_duration }} minuuttia
+</p>
+
+{% if activities %} {% for activity in activities %} {% include
+"partials/activity_list_item.html" %} {% endfor %} {% else %}
+<p>Ei aktiviteetteja.</p>
+{% endif %} {% endblock %}

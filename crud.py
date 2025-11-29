@@ -24,6 +24,16 @@ def get_activity(activity_id: int):
     rows = db.query(sql, [activity_id])
     return rows[0] if rows else None
 
+def get_activities_by_user_id(user_id: int):
+    sql = """
+        SELECT a.id, a.sent_at, a.sport, a.duration_in_minutes, a.content, a.user_id, u.username
+        FROM activities a
+        JOIN users u ON a.user_id = u.id
+        WHERE a.user_id = ?
+        ORDER BY a.sent_at
+    """
+    return db.query(sql, [user_id])
+
 def add_activity(sport: str, duration_in_minutes: int, content: str, user_id: int):
     sql = """INSERT INTO activities (sent_at, sport, duration_in_minutes, content, user_id)
             VALUES (datetime('now'), ?, ?, ?, ?)"""
@@ -53,3 +63,7 @@ def get_user_by_username(username: str):
     sql = "SELECT id, password_hash FROM users WHERE username = ?"
     rows = db.query(sql, [username])
     return rows[0] if rows else None
+
+def get_username_by_id(user_id: int):
+    row = db.query("SELECT username FROM users WHERE id = ? LIMIT 1", [user_id])
+    return row[0]["username"] if row else None
