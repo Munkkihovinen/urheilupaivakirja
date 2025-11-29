@@ -1,5 +1,5 @@
-<html>
-  <body>
+{% extends "base.html" %}
+{% block content %}
     <h1>{{ activity.username }} {{ activity.sport }}</h1>
 
     <p>
@@ -20,3 +20,4 @@
     <p>Kommentit tulee tähän myöhemmin</p>
   </body>
 </html>
+{% endblock %}

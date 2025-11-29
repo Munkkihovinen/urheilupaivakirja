@@ -1,29 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Rekisteröinti</title>
-  </head>
-
-  <body>
-    <h1>Urheilupäiväkirja</h1>
-    <h2>Luo tunnus</h2>
-    <form action="/create" method="post">
-      <p>
-        Käyttäjätunnus: <br />
-        <input type="text" name="username" />
-      </p>
-      <p>
-        Salasana: <br />
-        <input type="password" name="password1" />
-      </p>
-      <p>
-        Salasana uudestaan: <br />
-        <input type="password" name="password2" />
-      </p>
-      <input type="submit" value="Luo tunnus" />
-    </form>
-    {% if error %}
-    <p style="color: red">{{ error }}</p>
-    {% endif %}
-  </body>
-</html>
+{% extends "base.html" %} {% block content %}
+<h1>Urheilupäiväkirja</h1>
+<h2>Luo tunnus</h2>
+<form action="/create" method="post">
+  <p>
+    Käyttäjätunnus: <br />
+    <input type="text" name="username" />
+  </p>
+  <p>
+    Salasana: <br />
+    <input type="password" name="password1" />
+  </p>
+  <p>
+    Salasana uudestaan: <br />
+    <input type="password" name="password2" />
+  </p>
+  <input type="submit" value="Luo tunnus" />
+</form>
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %} {% endblock %}

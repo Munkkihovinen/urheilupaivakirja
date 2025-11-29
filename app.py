@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, session, redirect, abort
+from flask import Flask, render_template, request, session, redirect, abort, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-import db
 import crud
 import config
 
@@ -25,19 +24,20 @@ def create():
 
     # check if username is taken    
     if crud.is_username_taken(username):
-        error = "VIRHE: tunnus on jo varattu"
-        return render_template("register.html", error=error)
+        flash("VIRHE: tunnus on jo varattu", "error")
+        return render_template("register.html")
 
     # check if passwords match
     if password1 != password2:
-        error = "VIRHE: salasanat eivät ole samat"
-        return render_template("register.html", error=error)
+        flash("VIRHE: salasanat eivät ole samat", "error")
+        return render_template("register.html")
 
     # insert user to db
     password_hash = generate_password_hash(password1)
     crud.create_user(username, password_hash)
 
-    return "Tunnus luotu"
+    flash("Tunnus luotu. Voit nyt kirjautua sisään.", "success")
+    return redirect("/login")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -54,8 +54,8 @@ def login():
             session["user_id"] = user['id']
             return redirect("/")
         else:
-            error = True
-            return render_template('login.html', error=error)
+            flash("Virheellinen käyttäjätunnus tai salasana.", "error")
+            return render_template('login.html')
 
 @app.route("/logout")
 def logout():
