@@ -4,7 +4,7 @@
 <form action="/activity/{{ activity.id }}/edit" method="post">
   <p>
     Urheilulaji: <br />
-    <input type="text" name="sport" value="{{ activity.sport }}" />
+    <input type="text" name="sport" value="{{ activity.sport }}" required />
   </p>
   <p>
     Suorituksen kesto minuuteissa: <br />
@@ -12,6 +12,7 @@
       type="number"
       name="duration_in_minutes"
       value="{{ activity.duration_in_minutes }}"
+      required
     />
   </p>
   <p>
