@@ -77,10 +77,18 @@ def show_activity(activity_id):
     activity = crud.get_activity(activity_id)
     return render_template("activity.html", activity=activity)
 
-@app.route("/remove/<int:activity_id>")
+@app.route("/remove/<int:activity_id>", methods=["GET", "POST"])
 def remove_activity(activity_id):
-    crud.remove_activity(activity_id)
-    return redirect("/")
+    activity = crud.get_activity(activity_id)
+
+    if request.method == "GET":
+        return render_template("remove.html", activity=activity)
+
+    if request.method == "POST":
+        if "continue" in request.form:
+            crud.remove_activity(activity["id"])
+            flash("Aktiviteetti poistettu.", "success")
+        return redirect("/")
 
 @app.route("/activity/<int:activity_id>/edit", methods=["GET", "POST"])
 def edit_activity(activity_id):

@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block title %}Aktiviteetin poisto{% endblock %} {%
+block content %}
+<h1>Aktiviteetin poisto</h1>
+<form action="/remove/{{ activity.id }}" method="post">
+  <p>Haluatko varmasti poistaa aktiviteetin?</p>
+  <input type="submit" name="continue" value="Jatka" />
+  <input type="submit" name="cancel" value="Peruuta" />
+</form>
+{% endblock %}
