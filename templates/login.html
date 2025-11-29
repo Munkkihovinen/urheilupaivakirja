@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}{% block title %}Kirjautuminen{% endblock %} {% block
+content %}
 <h1>Urheilupäiväkirja</h1>
 {% if session.username %}
 <p>Olet jo kirjautunut sisään nimellä {{ session.username }}</p>

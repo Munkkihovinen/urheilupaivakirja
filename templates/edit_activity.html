@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}{% block title %}Aktiviteetin muokkaus{% endblock %} {%
+block content %}
 <h1>Muokkaa suoritusta</h1>
 
 <form action="/activity/{{ activity.id }}/edit" method="post">
