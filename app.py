@@ -22,6 +22,11 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
 
+    # check any of the fields is empty
+    if not username or not password1 or not password2:
+        flash("VIRHE: kaikki kentät ovat pakollisia.", "error")
+        return render_template("register.html")
+
     # check if username is taken    
     if crud.is_username_taken(username):
         flash("VIRHE: tunnus on jo varattu", "error")
