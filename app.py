@@ -81,7 +81,8 @@ def new_activity():
 @app.route("/activity/<int:activity_id>")
 def show_activity(activity_id):
     activity = crud.get_activity(activity_id)
-    return render_template("activity.html", activity=activity)
+    comments = crud.get_comments_for_activity(activity_id)
+    return render_template("activity.html", activity=activity, comments=comments)
 
 @app.route("/remove/<int:activity_id>", methods=["GET", "POST"])
 def remove_activity(activity_id):
@@ -128,3 +129,12 @@ def user_profile(user_id):
         count=count,
         total_duration=total_duration,
     )
+
+@app.route("/activity/<int:activity_id>/comment", methods=["POST"])
+def add_comment(activity_id):
+    if "user_id" not in session:
+        abort(403)
+    content = request.form.get("content", "").strip()
+    if content:
+        crud.add_comment(activity_id, session["user_id"], content)
+    return redirect(f"/activity/{activity_id}")

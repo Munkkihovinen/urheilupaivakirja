@@ -17,7 +17,26 @@
       <a href="/">← Takaisin etusivulle</a>
     </p>
     <h2>Kommentit</h2>
-    <p>Kommentit tulee tähän myöhemmin</p>
-  </body>
-</html>
+
+    {% for c in comments %}
+    <p>
+      <strong><a href="/user/{{ c.user_id }}">{{ c.username }}</a></strong>
+      <small>{{ c.sent_at }}</small><br />
+      {{ c.content }}
+    </p>
+    <hr />
+    {% endfor %}
+
+    {% if session.username %}
+    <form action="/activity/{{ activity.id }}/comment" method="post">
+      <p>
+        <textarea name="content" rows="3" cols="40" required></textarea>
+      </p>
+      <input type="submit" value="Lisää kommentti" />
+    </form>
+    {% else %}
+    <p>Kirjaudu sisään lisätäksesi kommentin.</p>
+    {% endif %}
+      </body>
+    </html>
 {% endblock %}

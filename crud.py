@@ -73,3 +73,20 @@ def get_username_by_id(user_id: int):
 
 def get_sports():
     return db.query("SELECT id, name FROM sports ORDER BY name")
+
+def get_comments_for_activity(activity_id: int):
+    sql = """
+        SELECT c.id, c.content, c.sent_at, c.user_id, u.username
+        FROM comments c
+        JOIN users u ON u.id = c.user_id
+        WHERE c.activity_id = ?
+        ORDER BY c.sent_at
+    """
+    return db.query(sql, [activity_id])
+
+def add_comment(activity_id: int, user_id: int, content: str):
+    sql = """
+        INSERT INTO comments (content, sent_at, user_id, activity_id)
+        VALUES (?, datetime('now'), ?, ?)
+    """
+    db.execute(sql, [content, user_id, activity_id])

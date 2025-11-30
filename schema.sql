@@ -18,7 +18,7 @@ CREATE TABLE comments (
     content TEXT,
     sent_at TEXT,
     user_id INTEGER REFERENCES users,
-    activity_id INTEGER REFERENCES activities
+    activity_id INTEGER REFERENCES activities ON DELETE CASCADE -- ensures that comments are deleted when corresponding activity is deleted
 );
 
 CREATE TABLE sports (
