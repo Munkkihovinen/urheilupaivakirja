@@ -1,10 +1,16 @@
 from flask import Flask, render_template, request, session, redirect, abort, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+import secrets
 import crud
 import config
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
+
 
 @app.route("/")
 def index():
@@ -58,6 +64,7 @@ def login():
         if user and check_password_hash(user['password_hash'], password):
             session["username"] = username
             session["user_id"] = user['id']
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("Virheellinen käyttäjätunnus tai salasana.", "error")
@@ -70,6 +77,7 @@ def logout():
 
 @app.route("/new_activity", methods=["POST"])
 def new_activity():
+    check_csrf()
     activity_id = crud.add_activity(
         int(request.form["sport"]),
         int(request.form["duration_in_minutes"]),
@@ -92,6 +100,7 @@ def remove_activity(activity_id):
         return render_template("remove.html", activity=activity)
 
     if request.method == "POST":
+        check_csrf()
         if "continue" in request.form:
             crud.remove_activity(activity["id"])
             flash("Aktiviteetti poistettu.", "success")
@@ -109,12 +118,14 @@ def edit_activity(activity_id):
         sports = crud.get_sports()
         return render_template("edit_activity.html", activity=activity, sports=sports)
 
-    sport = request.form.get("sport", "").strip()
-    duration = request.form.get("duration_in_minutes", "").strip()
-    content = request.form.get("content", "").strip()
+    if request.method == "POST":
+        check_csrf()
+        sport = request.form.get("sport", "").strip()
+        duration = request.form.get("duration_in_minutes", "").strip()
+        content = request.form.get("content", "").strip()
 
-    crud.update_activity(activity_id, sport=sport, duration_in_minutes=duration, content=content)
-    return redirect(f"/activity/{activity_id}")
+        crud.update_activity(activity_id, sport=sport, duration_in_minutes=duration, content=content)
+        return redirect(f"/activity/{activity_id}")
 
 @app.route("/user/<int:user_id>")
 def user_profile(user_id):
@@ -132,6 +143,7 @@ def user_profile(user_id):
 
 @app.route("/activity/<int:activity_id>/comment", methods=["POST"])
 def add_comment(activity_id):
+    check_csrf()
     if "user_id" not in session:
         abort(403)
     content = request.form.get("content", "").strip()

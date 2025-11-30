@@ -23,6 +23,7 @@ block content %}
 {{ activity.content }}</textarea
     >
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
   <input type="submit" value="Tallenna" />
   <a href="/activity/{{ activity.id }}">Peruuta</a>
 </form>

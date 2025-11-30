@@ -32,6 +32,7 @@
       <p>
         <textarea name="content" rows="3" cols="40" required></textarea>
       </p>
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
       <input type="submit" value="Lisää kommentti" />
     </form>
     {% else %}
