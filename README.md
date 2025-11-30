@@ -14,13 +14,13 @@
 
 - Asenna sqlite3 ja python
 - Asenna Flask: `pip install flask`
-- Luo tietokanta `sqlite3 database.db < schema.sql`
+- Luo tietokanta komennolla `python init_db.py`. Tämä myös lisää lajirivit sports tauluun.
 - Käynnistä sovellus `flask run`
 - Luo tunnus etusivulla ja kirjaudu sisään
 
-# Välipalautus 2 status
+# Välipalautus 3 status
 
 - Sovellusta kannattaa testata luomalla useampi tunnus ja lisätä useita suorituksia etusivun lomakkeen kautta.
 - Käyttäjien on tarkoitus nähdä kaikkien lisäämät suoritukset, mutta pystyä muokkaamaan ja poistamaan vain itse lisättyjä.
-- Suorituksien kommentit toteuttamatta, vaikka taulu on mukana tietokannassa
-  
+- Sovelluksessa pitäisi olla lähes kaikki suunnitellut perustoiminnallisuudet valmiina.
+- Sivuston tyyli ja css asiat on kesken
