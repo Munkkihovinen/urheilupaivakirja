@@ -3,10 +3,11 @@ block content %}
 <h1>Muokkaa suoritusta</h1>
 
 <form action="/activity/{{ activity.id }}/edit" method="post">
-  <p>
-    Urheilulaji: <br />
-    <input type="text" name="sport" value="{{ activity.sport }}" required />
-  </p>
+  <select name="sport" required>
+    {% for s in sports %}
+    <option value="{{ s.id }}" {% if s.name == activity.sport %}selected{% endif %}>{{ s.name }}</option>
+    {% endfor %}
+  </select>
   <p>
     Suorituksen kesto minuuteissa: <br />
     <input

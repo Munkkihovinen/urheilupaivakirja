@@ -1,12 +1,13 @@
 import db
 
 def get_activities(search: str | None = None):
-    sql = """SELECT a.id, a.sent_at, a.sport, a.duration_in_minutes, a.content, a.user_id, u.username
+    sql = """SELECT a.id, a.sent_at, s.name AS sport, a.duration_in_minutes, a.content, a.user_id, u.username
             FROM activities a
-            JOIN users u ON a.user_id = u.id"""
+            JOIN users u ON a.user_id = u.id
+            JOIN sports s ON s.id = a.sport"""
     params = []
     if search:
-        sql += " WHERE (LOWER(a.content) LIKE LOWER(?) OR LOWER(a.sport) LIKE LOWER(?))"
+        sql += " WHERE (LOWER(a.content) LIKE LOWER(?) OR LOWER(s.name) LIKE LOWER(?))"
         params.append(f"%{search}%")
         params.append(f"%{search}%")
     sql += " ORDER BY a.sent_at"
@@ -15,9 +16,10 @@ def get_activities(search: str | None = None):
 
 def get_activity(activity_id: int):
     sql = """
-        SELECT a.id, a.sent_at, a.sport, a.duration_in_minutes, a.content, a.user_id, u.username
+        SELECT a.id, a.sent_at, s.name AS sport, a.duration_in_minutes, a.content, a.user_id, u.username
         FROM activities a
         JOIN users u ON a.user_id = u.id
+        JOIN sports s ON s.id = a.sport
         WHERE a.id = ?
         LIMIT 1
     """
@@ -26,9 +28,10 @@ def get_activity(activity_id: int):
 
 def get_activities_by_user_id(user_id: int):
     sql = """
-        SELECT a.id, a.sent_at, a.sport, a.duration_in_minutes, a.content, a.user_id, u.username
+        SELECT a.id, a.sent_at, s.name AS sport, a.duration_in_minutes, a.content, a.user_id, u.username
         FROM activities a
         JOIN users u ON a.user_id = u.id
+        JOIN sports s ON s.id = a.sport
         WHERE a.user_id = ?
         ORDER BY a.sent_at
     """
@@ -67,3 +70,6 @@ def get_user_by_username(username: str):
 def get_username_by_id(user_id: int):
     row = db.query("SELECT username FROM users WHERE id = ? LIMIT 1", [user_id])
     return row[0]["username"] if row else None
+
+def get_sports():
+    return db.query("SELECT id, name FROM sports ORDER BY name")

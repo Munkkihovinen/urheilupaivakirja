@@ -1,7 +1,11 @@
 <form action="/new_activity" method="post">
   <p>
     Urheilulaji: <br />
-    <input type="text" name="sport" required />
+    <select name="sport" required>
+      {% for s in sports %}
+      <option value="{{ s.id }}">{{ s.name }}</option>
+      {% endfor %}
+    </select>
   </p>
   <p>
     Suorituksen kesto minuuteissa: <br />

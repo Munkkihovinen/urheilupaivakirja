@@ -10,7 +10,8 @@ app.secret_key = config.secret_key
 def index():
     query = request.args.get("query", "").strip()
     activities = crud.get_activities(search=query if query else None)
-    return render_template("index.html", activities=activities, query=query)
+    sports = crud.get_sports()
+    return render_template("index.html", activities=activities, query=query, sports=sports)
 
 @app.route("/register")
 def register():
@@ -69,7 +70,12 @@ def logout():
 
 @app.route("/new_activity", methods=["POST"])
 def new_activity():
-    activity_id = crud.add_activity(request.form["sport"], request.form["duration_in_minutes"], request.form["content"], session["user_id"])
+    activity_id = crud.add_activity(
+        int(request.form["sport"]),
+        int(request.form["duration_in_minutes"]),
+        request.form["content"],
+        session["user_id"]
+    )
     return redirect("/activity/" + str(activity_id))
 
 @app.route("/activity/<int:activity_id>")
@@ -99,7 +105,8 @@ def edit_activity(activity_id):
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_activity.html", activity=activity)
+        sports = crud.get_sports()
+        return render_template("edit_activity.html", activity=activity, sports=sports)
 
     sport = request.form.get("sport", "").strip()
     duration = request.form.get("duration_in_minutes", "").strip()
