@@ -10,7 +10,7 @@ def get_activities(search: str | None = None):
         sql += " WHERE (LOWER(a.content) LIKE LOWER(?) OR LOWER(s.name) LIKE LOWER(?))"
         params.append(f"%{search}%")
         params.append(f"%{search}%")
-    sql += " ORDER BY a.sent_at"
+    sql += " ORDER BY a.sent_at DESC"
 
     return db.query(sql, params)
 
@@ -33,7 +33,7 @@ def get_activities_by_user_id(user_id: int):
         JOIN users u ON a.user_id = u.id
         JOIN sports s ON s.id = a.sport
         WHERE a.user_id = ?
-        ORDER BY a.sent_at
+        ORDER BY a.sent_at DESC
     """
     return db.query(sql, [user_id])
 
