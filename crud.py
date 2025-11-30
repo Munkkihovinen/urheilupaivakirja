@@ -1,7 +1,13 @@
 import db
 
 def get_activities(search: str | None = None):
-    sql = """SELECT a.id, a.sent_at, s.name AS sport, a.duration_in_minutes, a.content, a.user_id, u.username
+    sql = """SELECT a.id,
+                a.sent_at,
+                s.name AS sport, 
+                a.duration_in_minutes,
+                a.content,
+                a.user_id,
+                u.username
             FROM activities a
             JOIN users u ON a.user_id = u.id
             JOIN sports s ON s.id = a.sport"""
@@ -80,7 +86,7 @@ def get_comments_for_activity(activity_id: int):
         FROM comments c
         JOIN users u ON u.id = c.user_id
         WHERE c.activity_id = ?
-        ORDER BY c.sent_at
+        ORDER BY c.sent_at DESC
     """
     return db.query(sql, [activity_id])
 

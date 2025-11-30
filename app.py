@@ -59,7 +59,7 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        
+
         user = crud.get_user_by_username(username)
         if user and check_password_hash(user['password_hash'], password):
             session["username"] = username
@@ -124,7 +124,10 @@ def edit_activity(activity_id):
         duration = request.form.get("duration_in_minutes", "").strip()
         content = request.form.get("content", "").strip()
 
-        crud.update_activity(activity_id, sport=sport, duration_in_minutes=duration, content=content)
+        crud.update_activity(activity_id,
+            sport=sport,
+            duration_in_minutes=duration,
+            content=content)
         return redirect(f"/activity/{activity_id}")
 
 @app.route("/user/<int:user_id>")
