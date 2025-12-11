@@ -32,17 +32,17 @@ def create():
     # check any of the fields is empty
     if not username or not password1 or not password2:
         flash("VIRHE: kaikki kentät ovat pakollisia.", "error")
-        return render_template("register.html")
+        return render_template("register.html", username=username)
 
     # check if username is taken    
     if crud.is_username_taken(username):
         flash("VIRHE: tunnus on jo varattu", "error")
-        return render_template("register.html")
+        return render_template("register.html", username=username)
 
     # check if passwords match
     if password1 != password2:
         flash("VIRHE: salasanat eivät ole samat", "error")
-        return render_template("register.html")
+        return render_template("register.html", username=username)
 
     # insert user to db
     password_hash = generate_password_hash(password1)
