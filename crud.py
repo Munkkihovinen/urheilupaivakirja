@@ -60,9 +60,6 @@ def update_activity(activity_id: int, sport: str, duration_in_minutes: int, cont
 def remove_activity(activity_id: int):
     db.execute("DELETE FROM activities WHERE id = ?", [activity_id])
 
-def is_username_taken(username: str):
-    sql = "SELECT id FROM users WHERE username = ?"
-    return db.query(sql, [username])
 
 def create_user(username: str, password_hash: str):
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"

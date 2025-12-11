@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 import crud
 import config
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -34,11 +35,6 @@ def create():
         flash("VIRHE: kaikki kentät ovat pakollisia.", "error")
         return render_template("register.html", username=username)
 
-    # check if username is taken    
-    if crud.is_username_taken(username):
-        flash("VIRHE: tunnus on jo varattu", "error")
-        return render_template("register.html", username=username)
-
     # check if passwords match
     if password1 != password2:
         flash("VIRHE: salasanat eivät ole samat", "error")
@@ -46,7 +42,11 @@ def create():
 
     # insert user to db
     password_hash = generate_password_hash(password1)
-    crud.create_user(username, password_hash)
+    try:
+        crud.create_user(username, password_hash)
+    except sqlite3.IntegrityError:
+        flash("VIRHE: tunnus on jo varattu", "error")
+        return render_template("register.html", username=username)
 
     flash("Tunnus luotu. Voit nyt kirjautua sisään.", "success")
     return redirect("/login")
