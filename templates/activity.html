@@ -6,7 +6,7 @@
       Kesto: {{ activity.duration_in_minutes }} minuuttia, päivämäärä: {{
       activity.sent_at }}
       <br />
-      {{ activity.content }} {% if activity.user_id == session.user_id %}
+      {{ activity.content | show_lines  }} {% if activity.user_id == session.user_id %}
       <br />
       <a href="/activity/{{ activity.id }}/edit">Muokkaa</a> |
       <a href="/remove/{{ activity.id }}">Poista</a>
@@ -22,7 +22,7 @@
     <p>
       <strong><a href="/user/{{ c.user_id }}">{{ c.username }}</a></strong>
       <small>{{ c.sent_at }}</small><br />
-      {{ c.content }}
+      {{ c.content | show_lines }}
     </p>
     <hr />
     {% endfor %}
