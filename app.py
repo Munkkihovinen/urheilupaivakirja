@@ -9,7 +9,13 @@ import markupsafe
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
 def check_csrf():
+    if "csrf_token" not in request.form or "csrf_token" not in session:
+        abort(403)
     if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
@@ -83,6 +89,7 @@ def logout():
 
 @app.route("/new_activity", methods=["POST"])
 def new_activity():
+    require_login()
     check_csrf()
     duration = request.form.get("duration_in_minutes", "").strip()
     if not duration.isdigit() or int(duration) <= 0:
@@ -104,7 +111,10 @@ def show_activity(activity_id):
 
 @app.route("/remove/<int:activity_id>", methods=["GET", "POST"])
 def remove_activity(activity_id):
+    require_login()
     activity = crud.get_activity(activity_id)
+    if activity["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("remove.html", activity=activity)
@@ -120,6 +130,7 @@ def remove_activity(activity_id):
 def edit_activity(activity_id):
     activity = crud.get_activity(activity_id)
 
+    require_login()
     # check user has right to edit
     if activity["user_id"] != session.get("user_id"):
         abort(403)
@@ -161,9 +172,8 @@ def user_profile(user_id):
 
 @app.route("/activity/<int:activity_id>/comment", methods=["POST"])
 def add_comment(activity_id):
+    require_login()
     check_csrf()
-    if "user_id" not in session:
-        abort(403)
     content = request.form.get("content", "").strip()
     if content:
         crud.add_comment(activity_id, session["user_id"], content)
