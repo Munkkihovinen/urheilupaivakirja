@@ -78,9 +78,13 @@ def logout():
 @app.route("/new_activity", methods=["POST"])
 def new_activity():
     check_csrf()
+    duration = request.form.get("duration_in_minutes", "").strip()
+    if not duration.isdigit() or int(duration) <= 0:
+        flash("VIRHE: keston täytyy olla positiivinen numero.", "error")
+        return redirect("/")
     activity_id = crud.add_activity(
         int(request.form["sport"]),
-        int(request.form["duration_in_minutes"]),
+        int(duration),
         request.form["content"],
         session["user_id"]
     )
@@ -124,9 +128,14 @@ def edit_activity(activity_id):
         duration = request.form.get("duration_in_minutes", "").strip()
         content = request.form.get("content", "").strip()
 
+        duration = request.form.get("duration_in_minutes", "").strip()
+        if not duration.isdigit() or int(duration) <= 0:
+            flash("VIRHE: keston täytyy olla positiivinen.", "error")
+            return redirect(f"/activity/{activity_id}/edit")
+
         crud.update_activity(activity_id,
             sport=sport,
-            duration_in_minutes=duration,
+            duration_in_minutes=int(duration),
             content=content)
         return redirect(f"/activity/{activity_id}")
 
