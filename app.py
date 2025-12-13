@@ -28,7 +28,7 @@ def show_lines(content):
 @app.route("/")
 def index():
     query = request.args.get("query", "").strip()
-    activities = crud.get_activities(search=query if query else None)
+    activities = crud.get_all_activities(search=query if query else None)
     sports = crud.get_sports()
     return render_template("index.html", activities=activities, query=query, sports=sports)
 

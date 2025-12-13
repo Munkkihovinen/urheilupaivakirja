@@ -1,6 +1,6 @@
 import db
 
-def get_activities(search: str | None = None):
+def get_all_activities(search: str | None = None):
     sql = """SELECT a.id,
                 a.sent_at,
                 s.name AS sport, 
