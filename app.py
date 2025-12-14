@@ -91,14 +91,23 @@ def logout():
 def new_activity():
     require_login()
     check_csrf()
+
+    # validate content length
+    content = request.form.get("content", "").strip()
+    if len(content) > 1000:
+        flash("VIRHE: liian pitkä kuvaus", "error")
+        return redirect("/")
+
+    # validate duration
     duration = request.form.get("duration_in_minutes", "").strip()
     if not duration.isdigit() or int(duration) <= 0:
         flash("VIRHE: keston täytyy olla positiivinen numero.", "error")
         return redirect("/")
+
     activity_id = crud.add_activity(
         int(request.form["sport"]),
         int(duration),
-        request.form["content"],
+        content,
         session["user_id"]
     )
     return redirect("/activity/" + str(activity_id))
@@ -145,6 +154,12 @@ def edit_activity(activity_id):
         duration = request.form.get("duration_in_minutes", "").strip()
         content = request.form.get("content", "").strip()
 
+        # validate content
+        if len(content) > 1000:
+            flash("VIRHE: liian pitkä kuvaus", "error")
+            return redirect(f"/activity/{activity_id}/edit")
+
+        # validate duration
         duration = request.form.get("duration_in_minutes", "").strip()
         if not duration.isdigit() or int(duration) <= 0:
             flash("VIRHE: keston täytyy olla positiivinen.", "error")
@@ -175,6 +190,9 @@ def add_comment(activity_id):
     require_login()
     check_csrf()
     content = request.form.get("content", "").strip()
+    if len(content) > 500:
+        flash("VIRHE: liian pitkä kommentti", "error")
+        return redirect(f"/activity/{activity_id}")
     if content:
         crud.add_comment(activity_id, session["user_id"], content)
     return redirect(f"/activity/{activity_id}")
