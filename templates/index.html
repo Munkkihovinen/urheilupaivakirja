@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Etusivu{% endblock %}{% block content
-%}
+{% extends "base.html" %} {% block title %}Etusivu{% endblock %}{% block
+content%}
 <h1>Urheilupäiväkirja</h1>
 {% if session.username %}
 <p>Tervetuloa {{ session.username }}</p>
@@ -8,13 +8,14 @@
   <a href="/logout">Kirjaudu ulos</a>
 </p>
 <hr />
+<h2>Lisää urheilusuoritus</h2>
+{% include "partials/activity_form.html" %}
+<hr />
 <h2>Haku</h2>
 {% include "partials/search_form.html" %}
 <h2>Urheilusuorituksia</h2>
 {% for activity in activities %} {% include "partials/activity_list_item.html"
-%} {% endfor %}
-<h2>Lisää urheilusuoritus</h2>
-{% include "partials/activity_form.html" %} {% else %}
+%} {% endfor %} {% else %}
 <p>Luo tunnus, jos olet uusi käyttäjä.</p>
 <a href="/register">Luo tunnus</a>
 <p>Kirjaudu sisään, jos sinulla on jo tunnus.</p>
